@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import PasswordToggle from "./PasswordToggle"
 
 export function LoginForm() {
   return (
@@ -30,7 +31,7 @@ export function LoginForm() {
         </div>
         <div className="grid gap-4">
           {/* <Label htmlFor="password">Password</Label> */}
-          <Input id="password" type="password" placeholder="Password" required />
+          <PasswordToggle placeholder="Password"/>
         </div>
       </CardContent>
       <CardFooter className="flex justify-center content-center flex-col gap-y-8">

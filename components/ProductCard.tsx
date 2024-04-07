@@ -25,7 +25,7 @@ export default function ProductCard ({ product }:{product:Product}){
         <Link href="#" className="text-blue-500 hover:text-blue-700">More Details
         </Link>
       )}
-      <div className=" flex mt-2 text-xs text-gray-500 gap-x-14">
+      <div className=" flex justify-between w-full mt-2 text-xs text-gray-500 gap-x-14">
         <span>Date posted: {date}</span>
         <span className="">{views} views</span>
       </div>

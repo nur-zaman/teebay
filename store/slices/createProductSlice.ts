@@ -1,8 +1,9 @@
 import { StateCreator } from "zustand";
+import { Option } from '@/components/ui/multiple-selector';
 
 type Product = {
   title: string;
-  categories: string[];
+  categories: Option[];
   description: string;
   priceInfo: {
     purchased: number;

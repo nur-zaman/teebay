@@ -18,34 +18,21 @@ export default function NavigationButtons({
 }: TFooter) {
   const step = useStore((state) => state.step);
   return (
-    <footer
-      className={cn(
-        " flex justify-between w-full py-4",
-        className
-      )}
-    >
+    <footer className={cn(" flex justify-between w-full py-4", className)}>
       {step === 1 && <div className="w-full" />}
 
       {step > 1 && (
-        <Button
-      
-          className=""
-          onClick={onHandlePreviousStep}
-        >
+        <Button className="" onClick={onHandlePreviousStep}>
           Back
         </Button>
       )}
       <Button
-        className={cn(
-          "",
-          {
-            "":
-              step === 4,
-          }
-        )}
+        className={cn("", {
+          "": step === 5,
+        })}
         onClick={onHandleNextStep}
       >
-        {step === 4 ? "Confirm" : "Next"}
+        {step === 5 ? "Confirm" : "Next"}
       </Button>
     </footer>
   );

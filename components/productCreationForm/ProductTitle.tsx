@@ -19,14 +19,14 @@ import useStore from "@/store/useStore";
 import Container from "./Container";
 
 const formSchema = z.object({
-  title: z.string().min(5, { message: "Title is required" }).max(100),
+  title: z.string().min(1, { message: "Title is required" }).max(100),
 
 });
 
 type ValidationSchema = z.infer<typeof formSchema>;
 
 export default function ProductTitle() {
-  const { product, setProduct, increaseStep } = useStore(
+  const { product, step, setProduct, increaseStep } = useStore(
     (state) => state
   );
   const form = useForm<ValidationSchema>({

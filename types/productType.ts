@@ -1,9 +1,12 @@
 export interface Product {
-    title: string;
-    categories: string[];
-    price: number;
-    rent: string;
-    description: string;
-    date: string;
-    views: number;
+  id: string;
+  title: string;
+  categories: string[];
+  price: number;
+  rent: number;
+  description: string;
+  date: string;
+  views: number;
+  status: "active" | "inactive";
+  rate: "YEAR" | "MONTH" | "WEEK" | "DAY";
 }

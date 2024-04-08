@@ -30,7 +30,7 @@ export default function ProductSummary() {
           </li>
           <li className="">Description: {product.description}</li>
           <li className="">
-            Price: ${product.priceInfo.purchased}, To Rent: $
+            Price: ${product.priceInfo.price}, To Rent: $
             {product.priceInfo.rent} per {product.priceInfo.rate}
           </li>
         </ul>

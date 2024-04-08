@@ -32,7 +32,7 @@ export async function GET(request: Request) {
       JSON.stringify({
         status: 500,
         messege: "Failed to fetch products",
-        error: error,
+        error: error.message,
       }),
       {
         status: 500,

@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable  */
 import { PrismaClient } from "@prisma/client";
 
 let prisma: PrismaClient;

@@ -27,9 +27,7 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  purchased: z.coerce
-    .number()
-    .min(1, { message: "Purchase price is required" }),
+  price: z.coerce.number().min(1, { message: "Purchase price is required" }),
   rent: z.coerce.number().min(1, { message: "Rent price is required" }),
   rate: z.string().min(1, { message: "Can't be empty" }),
 });
@@ -43,7 +41,7 @@ export default function ProductPriceInfo() {
   const form = useForm<ValidationSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      purchased: product.priceInfo.purchased,
+      price: product.priceInfo.price,
       rent: product.priceInfo.rent,
       rate: product.priceInfo.rate,
     },
@@ -78,12 +76,12 @@ export default function ProductPriceInfo() {
         >
           <FormField
             control={control}
-            name="purchased"
+            name="price"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-c-primary-marine-blue flex items-center justify-between">
                   Purchase price
-                  <FormMessage>{errors.purchased?.message}</FormMessage>
+                  <FormMessage>{errors.price?.message}</FormMessage>
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -92,7 +90,7 @@ export default function ProductPriceInfo() {
                       "placeholder:font-medium placeholder:text-c-neutral-cool-gray border-c-neutral-light-gray text-c-primary-marine-blue",
                       {
                         "border-c-primary-strawberry-red":
-                          errors.purchased?.message,
+                          errors.price?.message,
                       }
                     )}
                     placeholder="0.00"

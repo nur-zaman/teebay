@@ -4,8 +4,16 @@ const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
   try {
-    const { name, description, price, userId, rate, rent, status, categories } =
-      await request.json();
+    const {
+      title,
+      description,
+      price,
+      userId,
+      rate,
+      rent,
+      status,
+      categories,
+    } = await request.json();
 
     // Fetch or create categories
     const categoryIds = await Promise.all(
@@ -28,7 +36,7 @@ export async function POST(request: Request) {
 
     const product = await prisma.product.create({
       data: {
-        name,
+        title,
         description,
         price,
         userId,
@@ -56,7 +64,7 @@ export async function POST(request: Request) {
       JSON.stringify({
         status: 500,
         messege: "Failed to create the product",
-        error: error,
+        error: error.message,
       }),
       {
         status: 500,

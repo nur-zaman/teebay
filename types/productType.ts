@@ -7,6 +7,6 @@ export interface Product {
   description: string;
   date: string;
   views: number;
-  status: "active" | "inactive";
+  status: "BOUGHT" | "RENTED" | "SOLD" | "BORROWED";
   rate: "YEAR" | "MONTH" | "WEEK" | "DAY";
 }

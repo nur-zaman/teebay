@@ -23,7 +23,7 @@ export default function PasswordToggle({
         className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
         onClick={togglePasswordVisibility}
       >
-        {showPassword ?  <Eye /> : <EyeOff />}
+        {showPassword ? <Eye /> : <EyeOff />}
       </span>
     </div>
   );

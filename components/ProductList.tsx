@@ -6,15 +6,18 @@ import { Button } from "./ui/button";
 import { Product } from "@/types/productType";
 import { getProducts } from "@/utils/products";
 
-export default function ProductList() {
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useQuery<Product[]>({
+export default function ProductList({
+  userId,
+  status,
+}: {
+  userId?: string;
+  status?: Product["status"];
+}) {
+  const productQuery = useQuery<Product[]>({
     queryKey: ["products"],
-    queryFn: getProducts,
+    queryFn: () => getProducts(userId, status),
   });
+  const { data: products, isLoading, error } = productQuery;
 
   if (isLoading) {
     return <div>Fetching Data</div>;
@@ -24,8 +27,12 @@ export default function ProductList() {
     return <div>Error fetching data</div>;
   }
 
+  if (products.length === 0) {
+    return <div>No product in the database, consider adding some</div>;
+  }
+
   return (
-    <div>
+    <div className="w-full">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

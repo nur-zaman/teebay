@@ -1,10 +1,48 @@
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { Product } from "@/types/productType";
+import { deleteProduct } from "@/utils/products";
+import {
+  useQueryClient,
+  QueryObserverSuccessResult,
+} from "@tanstack/react-query";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { title, categories, price, rent, description, createdAt, rate } =
+  const { id, title, categories, price, rent, description, createdAt, rate } =
     product;
+  const queryClient = useQueryClient();
+
+  const handleDelete = async () => {
+    try {
+      // Optimistic update
+      queryClient.setQueryData<Product[] | undefined>(
+        ["products"],
+        (products) => products?.filter((p) => p.id !== id)
+      );
+
+      const response = await deleteProduct(id);
+      if (response.ok) {
+        console.log("Product deleted successfully");
+      } else {
+        const error = await response.json();
+        console.error("Error deleting product:", error);
+
+        // Revert the optimistic update
+        queryClient.setQueryData<Product[] | undefined>(
+          ["products"],
+          (products) => (products ? [...products, product] : [product])
+        );
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+
+      // Revert the optimistic update
+      queryClient.setQueryData<Product[] | undefined>(
+        ["products"],
+        (products) => (products ? [...products, product] : [product])
+      );
+    }
+  };
 
   return (
     <div className="border rounded-lg p-4 shadow-md hover:shadow-lg">
@@ -18,7 +56,10 @@ export default function ProductCard({ product }: { product: Product }) {
               : "No categories"}
           </p>
         </div>
-        <button className="text-gray-400 hover:text-red-500">
+        <button
+          onClick={handleDelete}
+          className="text-gray-400 hover:text-red-500"
+        >
           <span className="sr-only">Delete</span>
           <Trash2 />
         </button>

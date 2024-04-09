@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z
   .object({
@@ -43,6 +44,8 @@ const signupSchema = z
 type ValidationSchema = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [error, setError] = useState("");
@@ -59,6 +62,7 @@ export function SignupForm() {
 
       if (response.ok) {
         console.log("Signup successful!");
+        router.push("/");
       } else {
         const errorData = await response.json();
         setError(errorData.message || "An error occurred during signup.");

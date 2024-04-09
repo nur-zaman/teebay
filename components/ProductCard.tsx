@@ -6,6 +6,7 @@ import {
   useQueryClient,
   QueryObserverSuccessResult,
 } from "@tanstack/react-query";
+import { ConfirmAlert } from "./ConfirmAlert";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { id, title, categories, price, rent, description, createdAt, rate } =
@@ -19,7 +20,7 @@ export default function ProductCard({ product }: { product: Product }) {
         ["products"],
         (products) => products?.filter((p) => p.id !== id)
       );
-
+      if (!id) throw new Error("Id is required");
       const response = await deleteProduct(id);
       if (response.ok) {
         console.log("Product deleted successfully");
@@ -56,13 +57,17 @@ export default function ProductCard({ product }: { product: Product }) {
               : "No categories"}
           </p>
         </div>
-        <button
-          onClick={handleDelete}
-          className="text-gray-400 hover:text-red-500"
+        <ConfirmAlert
+          optionYes="Yes"
+          optionNo="No"
+          yesAction={handleDelete}
+          message="Are you sure you want to delete this product?"
         >
-          <span className="sr-only">Delete</span>
-          <Trash2 />
-        </button>
+          <button className="text-gray-400 hover:text-red-500">
+            <span className="sr-only">Delete</span>
+            <Trash2 />
+          </button>
+        </ConfirmAlert>
       </div>
       <p className="mt-2">
         Price: ${price} | Rent: ${rent} per {rate.toLowerCase()}
@@ -76,7 +81,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className=" flex justify-between w-full mt-2 text-xs text-gray-500 gap-x-14">
         <span>
           Date posted:{" "}
-          {new Date(createdAt).toLocaleDateString("en-US", {
+          {new Date(createdAt as string).toLocaleDateString("en-US", {
             day: "numeric",
             month: "long",
             year: "numeric",

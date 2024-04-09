@@ -15,10 +15,7 @@ type Product = {
 type ProductSlice = {
   product: Product;
   setProduct: (data: Product) => void;
-  // setProductTitle: (title: string) => void;
-  // setProductCategories: (categories: string[]) => void;
-  // setProductDescription: (description: string) => void;
-  // setProductPriceInfo: (priceInfo: { purchased: number; rent: number; rate: string; }) => void;
+  resetProduct: () => void;
 };
 
 const initialState: Product = {
@@ -33,18 +30,9 @@ const initialState: Product = {
 };
 
 const createProductSlice: StateCreator<ProductSlice> = (set) => ({
-  //     product: initialState,
-
-  //   setProduct: (data) =>
-  //     set((state) => ({ product: { ...state.product, ...data } })),
-
   product: initialState,
-  // title: "",
   setProduct: (data) => set(() => ({ product: data })),
-  // setProductTitle: (title) => set((state) => ({ title: state.title })),
-  // setProductCategories: (categories) => set((state) => ({ product: {...state.product, categories } })),
-  // setProductDescription: (description) => set((state) => ({ product: {...state.product, description } })),
-  // setProductPriceInfo: (priceInfo) => set((state) => ({ product: {...state.product, priceInfo } })),
+  resetProduct: () => set(() => ({ product: initialState })),
 });
 
 export default createProductSlice;

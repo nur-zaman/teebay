@@ -14,7 +14,7 @@ export async function getProducts(
     queryParams.append("status", status);
   }
 
-  const route = `/api/products${queryParams.toString().length > 0 ? `?${queryParams.toString()}` : ""}`;
+  const route = `/api/get-products${queryParams.toString().length > 0 ? `?${queryParams.toString()}` : ""}`;
 
   const res = await fetch(route);
 
@@ -34,6 +34,18 @@ export async function deleteProduct(productId: string) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ productId }),
+  });
+
+  return response;
+}
+
+export async function createProduct(product: Product) {
+  const response = await fetch("/api/add-product", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(product),
   });
 
   return response;

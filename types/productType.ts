@@ -1,20 +1,20 @@
 export interface Category {
-  id: string;
+  id?: string;
   name: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Product {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   price: number;
   rent: number;
-  status: "BOUGHT" | "RENTED" | "SOLD" | "BORROWED";
+  status?: "BOUGHT" | "RENTED" | "SOLD" | "BORROWED";
   rate: "YEAR" | "MONTH" | "WEEK" | "DAY";
   userId: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   categories: Category[];
 }

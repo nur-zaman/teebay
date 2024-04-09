@@ -20,6 +20,7 @@ export async function DELETE(request: Request) {
       JSON.stringify({
         status: 500,
         messege: "Failed to delete the product",
+        //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         error: error.message,
       }),
       {

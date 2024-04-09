@@ -1,19 +1,20 @@
-import { Button } from '@/components/ui/button';
-import type { ReactNode } from 'react';
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import type { ReactNode } from "react";
 
 type LayoutProps = {
-    children: ReactNode;
+  children: ReactNode;
 };
 
 export default function Layout({ children }: LayoutProps) {
-    
-    return (
-        <section className='flex flex-col'>
-            <div  className='m-2 self-end'>
-            <Button variant={"destructive"}>LOGOUT</Button>
-            </div>
-            {children}
-
-        </section>
-    );
+  return (
+    <section className="flex flex-col">
+      <div className="m-2 self-end">
+        <Link href="/">
+          <Button variant={"destructive"}>LOGOUT</Button>
+        </Link>
+      </div>
+      {children}
+    </section>
+  );
 }

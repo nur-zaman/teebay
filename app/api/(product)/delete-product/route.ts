@@ -14,7 +14,7 @@ export async function DELETE(request: Request) {
         status: 200,
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     return new Response(
       JSON.stringify({

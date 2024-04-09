@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import * as z from "zod";
 import useStore from "@/store/useStore";
 import Container from "./Container";
 import { createProduct } from "@/utils/products";

@@ -8,7 +8,13 @@ import {
 } from "@tanstack/react-query";
 import { ConfirmAlert } from "./ConfirmAlert";
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  hideDeleteButton,
+}: {
+  product: Product;
+  hideDeleteButton?: boolean;
+}) {
   const { id, title, categories, price, rent, description, createdAt, rate } =
     product;
   const queryClient = useQueryClient();
@@ -57,17 +63,20 @@ export default function ProductCard({ product }: { product: Product }) {
               : "No categories"}
           </p>
         </div>
-        <ConfirmAlert
-          optionYes="Yes"
-          optionNo="No"
-          yesAction={handleDelete}
-          message="Are you sure you want to delete this product?"
-        >
-          <button className="text-gray-400 hover:text-red-500">
-            <span className="sr-only">Delete</span>
-            <Trash2 />
-          </button>
-        </ConfirmAlert>
+
+        {!hideDeleteButton && (
+          <ConfirmAlert
+            optionYes="Yes"
+            optionNo="No"
+            yesAction={handleDelete}
+            message="Are you sure you want to delete this product?"
+          >
+            <button className="text-gray-400 hover:text-red-500">
+              <span className="sr-only">Delete</span>
+              <Trash2 />
+            </button>
+          </ConfirmAlert>
+        )}
       </div>
       <p className="mt-2">
         Price: ${price} | Rent: ${rent} per {rate.toLowerCase()}

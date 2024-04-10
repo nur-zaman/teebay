@@ -4,7 +4,7 @@ export async function getProducts(
   userId?: string,
   status?: Product["status"]
 ): Promise<Product[]> {
-  console.log("Fetching products");
+  console.log("Fetching products for", userId, status);
 
   const queryParams: URLSearchParams = new URLSearchParams();
   if (userId) {

@@ -4,11 +4,16 @@ import React, { useState } from "react";
 import useStore from "@/store/useStore";
 import Container from "./Container";
 import { createProduct } from "@/utils/products";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Product as ProductDTO } from "@/types/productType";
 
 export default function ProductSummary() {
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    redirect("/");
+    throw new Error("User ID invalid");
+  }
   const { product, step, decreaseStep, resetStep, resetProduct } = useStore(
     (state) => state
   );
@@ -23,7 +28,7 @@ export default function ProductSummary() {
 
   const handleProductCreation = async () => {
     const formattedProduct: ProductDTO = {
-      userId: "b1c23d9b-7edb-4dde-8fc7-5f16660b093e",
+      userId: userId,
       title: product.title,
       description: product.description,
       price: product.priceInfo.price,

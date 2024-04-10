@@ -44,10 +44,18 @@ const formSchema = z.object({
 type ValidationSchema = z.infer<typeof formSchema>;
 
 export default function EditProduct({ productId }: EditProductProps) {
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    console.log("please log in first");
+    redirect("/");
+    throw new Error("User ID invalid");
+  }
+
   const router = useRouter();
   const queryClient = useQueryClient();
   const products: Product[] = queryClient.getQueryData([
     "products",
+    userId,
   ]) as Product[];
 
   const product: Product | undefined = products?.find(
@@ -55,6 +63,7 @@ export default function EditProduct({ productId }: EditProductProps) {
   );
 
   if (!product) {
+    console.log("Product ID invalid");
     redirect(`/myproducts`);
     throw new Error("Product ID invalid");
   }
@@ -95,7 +104,7 @@ export default function EditProduct({ productId }: EditProductProps) {
   const onSubmitHandler = async (values: ValidationSchema) => {
     const formattedProduct: Product = {
       id: product.id,
-      userId: "b1c23d9b-7edb-4dde-8fc7-5f16660b093e",
+      userId: product.userId,
       title: values.title,
       description: values.description,
       price: values.price,

@@ -2,10 +2,7 @@ import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { Product } from "@/types/productType";
 import { deleteProduct } from "@/utils/products";
-import {
-  useQueryClient,
-  QueryObserverSuccessResult,
-} from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { ConfirmAlert } from "./ConfirmAlert";
 import { useRouter } from "next/navigation";
 
@@ -26,7 +23,7 @@ export default function ProductCard({
     try {
       // Optimistic update
       queryClient.setQueryData<Product[] | undefined>(
-        ["products"],
+        ["products", product.userId],
         (products) => products?.filter((p) => p.id !== id)
       );
       if (!id) throw new Error("Id is required");

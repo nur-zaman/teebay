@@ -2,23 +2,23 @@
 
 import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
-import { Button } from "./ui/button";
 import { Product } from "@/types/productType";
 import { getProducts } from "@/utils/products";
-import Link from "next/navigation";
+
+type productListProps = {
+  userId?: string;
+  status?: string;
+  onclickURL: string;
+};
 
 export default function ProductList({
   userId,
   status,
   onclickURL,
-}: {
-  userId?: string;
-  status?: Product["status"];
-  onclickURL: string;
-}) {
+}: productListProps) {
   const productQuery = useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: () => getProducts(userId, status),
+    queryKey: ["products", userId],
+    queryFn: () => getProducts(userId),
   });
   const { data: products, isLoading, error } = productQuery;
 

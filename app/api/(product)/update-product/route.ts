@@ -18,19 +18,21 @@ export async function PUT(request: Request) {
 
     // Update categories
     const categoryIds = await Promise.all(
-      categories.map(async (category) => {
-        const existingCategory = await prisma.category.findUnique({
-          where: { name: category.name },
-        });
-        if (existingCategory) {
-          return existingCategory.id;
-        } else {
-          const newCategory = await prisma.category.create({
-            data: { name: category.name },
+      categories.map(
+        async (category: { name: string; id: string; [key: string]: any }) => {
+          const existingCategory = await prisma.category.findUnique({
+            where: { name: category.name },
           });
-          return newCategory.id;
+          if (existingCategory) {
+            return existingCategory.id;
+          } else {
+            const newCategory = await prisma.category.create({
+              data: { name: category.name },
+            });
+            return newCategory.id;
+          }
         }
-      })
+      )
     );
 
     // Update product
@@ -62,7 +64,7 @@ export async function PUT(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return new Response(
       JSON.stringify({
         status: 500,

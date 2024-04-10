@@ -1,5 +1,7 @@
+"use client";
 import EditProduct from "@/components/EditProduct";
 import { Product } from "@/types/productType";
+import { useSearchParams } from "next/navigation";
 
 const product: Product = {
   id: "1",
@@ -17,6 +19,10 @@ const product: Product = {
 };
 
 export default function MyProductsPage() {
-  // return <EditProduct product={product} />;
-  return <div></div>;
+  const searchParam = useSearchParams();
+  const productId = searchParam.get("productId");
+  console.log(productId);
+
+  return <EditProduct productId={productId} />;
+  // return <div></div>;
 }

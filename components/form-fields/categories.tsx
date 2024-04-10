@@ -5,17 +5,7 @@ import { UseFormReturn } from "react-hook-form";
 
 type Props = {
   OPTIONS: Option[];
-  form: UseFormReturn<
-    {
-      categories: {
-        label: string;
-        value: string;
-        disable?: boolean | undefined;
-      }[];
-    },
-    any,
-    undefined
-  >;
+  form: UseFormReturn<any, any, undefined>;
 };
 
 export default function CategoriesFormField({ OPTIONS, form }: Props) {

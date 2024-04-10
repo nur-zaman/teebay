@@ -5,13 +5,16 @@ import ProductCard from "./ProductCard";
 import { Button } from "./ui/button";
 import { Product } from "@/types/productType";
 import { getProducts } from "@/utils/products";
+import Link from "next/navigation";
 
 export default function ProductList({
   userId,
   status,
+  onclickURL,
 }: {
   userId?: string;
   status?: Product["status"];
+  onclickURL: string;
 }) {
   const productQuery = useQuery<Product[]>({
     queryKey: ["products"],
@@ -34,7 +37,11 @@ export default function ProductList({
   return (
     <div className="w-full">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard
+          key={product.id}
+          product={product}
+          onclickURL={onclickURL}
+        />
       ))}
     </div>
   );

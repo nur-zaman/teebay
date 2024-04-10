@@ -5,6 +5,7 @@ import useStore from "@/store/useStore";
 import Container from "./Container";
 import { createProduct } from "@/utils/products";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { Product as ProductDTO } from "@/types/productType";
 
 export default function ProductSummary() {
@@ -12,6 +13,8 @@ export default function ProductSummary() {
     (state) => state
   );
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [error, setError] = useState<string | null>(null);
 
   const onPrevious = () => {
@@ -30,9 +33,13 @@ export default function ProductSummary() {
     };
     try {
       const res = await createProduct(formattedProduct);
-      if (!error && res.ok) router.push("/myproducts");
-      resetStep();
-      resetProduct();
+      if (!error && res.ok) {
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+
+        resetStep();
+        resetProduct();
+        router.push("/myproducts");
+      }
     } catch (error) {
       console.error("Error creating product:", error);
       setError(

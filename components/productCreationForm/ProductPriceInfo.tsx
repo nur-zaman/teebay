@@ -25,6 +25,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  PriceFormField,
+  RentFormField,
+  RateFormField,
+} from "../form-fields/price";
 
 const formSchema = z.object({
   price: z.coerce.number().min(1, { message: "Purchase price is required" }),
@@ -47,19 +52,9 @@ export default function ProductPriceInfo() {
     },
   });
 
-  const {
-    control,
-    formState: { errors },
-  } = form;
-
   const onSubmitHandler = (values: ValidationSchema) => {
-    console.log(values);
-    console.log(product);
     setProduct({ ...product, ...{ priceInfo: values } });
     increaseStep(4);
-
-    console.log(values);
-    console.log(product);
   };
 
   return (
@@ -71,35 +66,10 @@ export default function ProductPriceInfo() {
 
       <Form {...form}>
         <form
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-6 justify-center items-center"
           onSubmit={() => form.handleSubmit(onSubmitHandler)}
         >
-          <FormField
-            control={control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-c-primary-marine-blue flex items-center justify-between">
-                  Purchase price
-                  <FormMessage>{errors.price?.message}</FormMessage>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type={`number`}
-                    className={cn(
-                      "placeholder:font-medium placeholder:text-c-neutral-cool-gray border-c-neutral-light-gray text-c-primary-marine-blue",
-                      {
-                        "border-c-primary-strawberry-red":
-                          errors.price?.message,
-                      }
-                    )}
-                    placeholder="0.00"
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <PriceFormField form={form} />
 
           <div>
             <h2 className="text-lg font-semibold text-c-primary-marine-blue">
@@ -107,63 +77,10 @@ export default function ProductPriceInfo() {
             </h2>
 
             <div className="flex items-center gap-6 mt-2">
-              <FormField
-                control={form.control}
-                name="rent"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex-row inline-flex items-center">
-                        <Input
-                          type={`number`}
-                          className={cn(
-                            "w-24 placeholder:font-medium placeholder:text-c-neutral-cool-gray border-c-neutral-light-gray text-c-primary-marine-blue",
-                            {
-                              "border-c-primary-strawberry-red":
-                                errors.rent?.message,
-                            }
-                          )}
-                          placeholder="0.0"
-                          {...field}
-                        />
-                        <span>$</span>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="rate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger className="w-56">
-                          <SelectValue placeholder="Select option" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectItem value="day">Per day</SelectItem>
-                            <SelectItem value="week">Per week</SelectItem>
-                            <SelectItem value="month">Per month</SelectItem>
-                            <SelectItem value="year">Per year</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              <RentFormField form={form} />
+              <RateFormField form={form} />
             </div>
-
-            {errors.rent && (
-              <FormMessage className="mt-2">{errors.rent?.message}</FormMessage>
-            )}
+            <FormMessage>{form.formState.errors.rate?.message}</FormMessage>
           </div>
         </form>
       </Form>

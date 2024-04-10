@@ -8,7 +8,7 @@ export default function MyProductsPage() {
       <h1 className="text-3xl font-bold mb-4">My Products</h1>
 
       <div className="flex flex-col gap-4 w-full justify-center items-center">
-        <ProductList />
+        <ProductList onclickURL="edit-product?productId=" />
         <div className="m-2 self-end">
           <Button>
             <Link href="/create-product">Add Product</Link>

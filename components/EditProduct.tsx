@@ -1,113 +1,156 @@
-// EditProduct.tsx
-
-import React, { useState } from "react";
-
-interface Product {
-  title: string;
-  categories: string[];
-  description: string;
-  price: number;
-  rent: {
-    amount: number;
-    period: string;
-  };
-}
+"use client";
+import { Product } from "@/types/productType";
+import React from "react";
+import { Form } from "@/components/ui/form";
+import DescriptionFormField from "./form-fields/description";
+import TitleFormField from "./form-fields/title";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Option } from "./ui/multiple-selector";
+import CategoriesFormField from "./form-fields/categories";
+import {
+  PriceFormField,
+  RentFormField,
+  RateFormField,
+} from "./form-fields/price";
+import { Button } from "./ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { redirect, useRouter } from "next/navigation";
+import { updateProduct } from "@/utils/products";
 
 interface EditProductProps {
-  product: Product;
-  onSave: (updatedProduct: Product) => void;
+  productId: string | null;
 }
 
-const EditProduct: React.FC<EditProductProps> = ({ product, onSave }) => {
-  const [updatedProduct, setUpdatedProduct] = useState(product);
+const formSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }).max(100),
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setUpdatedProduct({
-      ...updatedProduct,
-      [name]: value,
-    });
-  };
+  price: z.coerce.number().min(1, { message: "Purchase price is required" }),
+  rent: z.coerce.number().min(1, { message: "Rent price is required" }),
+  rate: z.string().min(1, { message: "Can't be empty" }),
+  description: z.string().min(1, { message: "Description is required" }),
+  categories: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+        disable: z.boolean().optional(),
+      })
+    )
+    .min(1, { message: "Select at least one category" }),
+});
 
-  const handleSave = () => {
-    onSave(updatedProduct); // Pass the updated product to the parent component
+type ValidationSchema = z.infer<typeof formSchema>;
+
+export default function EditProduct({ productId }: EditProductProps) {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const products: Product[] = queryClient.getQueryData([
+    "products",
+  ]) as Product[];
+
+  const product: Product | undefined = products?.find(
+    (p: Product) => p.id === productId
+  );
+
+  if (!product) {
+    redirect(`/myproducts`);
+    throw new Error("Product ID invalid");
+  }
+
+  const extractedCategories: Option[] = product.categories.map((category) => {
+    return {
+      label: category.name as Option["label"],
+      value: category.name as Option["value"],
+    };
+  });
+
+  const CATEGORIES = [
+    "ELECTRONICS",
+    "FURNITURE",
+    "HOME APPLIANCES",
+    "SPORTING GOODS",
+    "OUTDOOR",
+    "TOYS",
+  ];
+
+  const OPTIONS: Option[] = CATEGORIES.map((category) => ({
+    label: category,
+    value: category.toLowerCase(),
+  }));
+
+  const form = useForm<ValidationSchema>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      description: product.description,
+      title: product.title,
+      categories: extractedCategories,
+      price: product.price,
+      rent: product.rent,
+      rate: product.rate.toString().toLowerCase(),
+    },
+  });
+
+  const onSubmitHandler = async (values: ValidationSchema) => {
+    const formattedProduct: Product = {
+      id: product.id,
+      userId: "b1c23d9b-7edb-4dde-8fc7-5f16660b093e",
+      title: values.title,
+      description: values.description,
+      price: values.price,
+      rent: values.rent,
+      rate: values.rate.toUpperCase() as Product["rate"],
+      categories: values.categories.map((cat) => ({ name: cat.label })),
+    };
+    try {
+      const res = await updateProduct(formattedProduct);
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
+      if (res.ok) router.push("/myproducts");
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
   };
 
   return (
-    <div>
-      <div>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={updatedProduct.title}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="categories">Categories</label>
-        {/* Implement your category input/selection component here */}
-        <input
-          type="text"
-          id="categories"
-          name="categories"
-          value={updatedProduct.categories.join(", ")}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          value={updatedProduct.description}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          name="price"
-          value={updatedProduct.price}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="rentAmount">Rent</label>
-        <input
-          type="number"
-          id="rentAmount"
-          name="rentAmount"
-          value={updatedProduct.rent.amount}
-          onChange={(e) =>
-            setUpdatedProduct({
-              ...updatedProduct,
-              rent: { ...updatedProduct.rent, amount: Number(e.target.value) },
-            })
-          }
-        />
-        <select
-          name="rentPeriod"
-          value={updatedProduct.rent.period}
-          onChange={(e) =>
-            setUpdatedProduct({
-              ...updatedProduct,
-              rent: { ...updatedProduct.rent, period: e.target.value },
-            })
-          }
-        >
-          <option value="hr">per hr</option>
-          {/* Add more options as needed */}
-        </select>
-      </div>
-      <button onClick={handleSave}>Edit Product</button>
-    </div>
-  );
-};
+    <Form {...form}>
+      <form className="w-full  " onSubmit={form.handleSubmit(onSubmitHandler)}>
+        <div className=" py-4 w-full">
+          <span className=" text-sm">Title</span>
+          <TitleFormField form={form} />
+        </div>
+        <div className="py-4">
+          <span className=" text-sm ">Categories</span>
+          <CategoriesFormField OPTIONS={OPTIONS} form={form} />
+        </div>
 
-export default EditProduct;
+        <div className="py-4">
+          <span className=" text-sm h-20 ">Description</span>
+          <DescriptionFormField form={form} />
+        </div>
+
+        <div className="flex py-4 flex-row">
+          <div className="px-2">
+            <span className=" text-sm ">Price</span>
+            <PriceFormField form={form} />
+          </div>
+
+          <div className="px-2">
+            <span className=" text-sm ">Rent</span>
+            <RentFormField form={form} />
+          </div>
+
+          <div className="px-2">
+            <span className=" text-sm "> Rate</span>
+            <RateFormField form={form} />
+          </div>
+        </div>
+        <div className="py-6 flex justify-end">
+          <Button onClick={() => onSubmitHandler} className=" ">
+            Edit Product
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+}

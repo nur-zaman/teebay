@@ -7,18 +7,21 @@ import {
   QueryObserverSuccessResult,
 } from "@tanstack/react-query";
 import { ConfirmAlert } from "./ConfirmAlert";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard({
   product,
   hideDeleteButton,
+  onclickURL,
 }: {
   product: Product;
   hideDeleteButton?: boolean;
+  onclickURL: string;
 }) {
   const { id, title, categories, price, rent, description, createdAt, rate } =
     product;
   const queryClient = useQueryClient();
-
+  const router = useRouter();
   const handleDelete = async () => {
     try {
       // Optimistic update
@@ -54,10 +57,15 @@ export default function ProductCard({
   return (
     <div className="border rounded-lg p-4 shadow-md hover:shadow-lg">
       <div className="flex justify-between items-start">
-        <div>
+        <div
+          onClick={() => {
+            router.push(`/${onclickURL}${product.id}`);
+          }}
+          className="hover:cursor-pointer"
+        >
           <h3 className="text-lg font-semibold">{title}</h3>
           <p className="text-gray-600">
-            Categories:{" "}
+            Categories:
             {categories.length > 0
               ? categories.map((cat) => cat.name).join(", ")
               : "No categories"}
@@ -83,7 +91,10 @@ export default function ProductCard({
       </p>
       <p className="mt-2 text-gray-700 line-clamp-3">{description}</p>
       {description.length > 200 && (
-        <Link href="#" className="text-blue-500 hover:text-blue-700">
+        <Link
+          href={`/${onclickURL}${product.id}`}
+          className="text-blue-500 hover:text-blue-700"
+        >
           More Details
         </Link>
       )}

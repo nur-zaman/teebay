@@ -50,3 +50,15 @@ export async function createProduct(product: Product) {
 
   return response;
 }
+
+export async function updateProduct(product: Product) {
+  const response = await fetch(`/api/update-product`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(product),
+  });
+
+  return response;
+}

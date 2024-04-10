@@ -10,7 +10,7 @@ import * as z from "zod";
 
 import { Form } from "@/components/ui/form";
 import { Option } from "@/components/ui/multiple-selector";
-import CategoriesFormField from "../form-items/categories";
+import CategoriesFormField from "../form-fields/categories";
 
 const CATEGORIES = [
   "ELECTRONICS",

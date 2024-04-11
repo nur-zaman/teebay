@@ -11,6 +11,7 @@ type productListProps = {
   onclickURL: string;
   exceptUserId?: string;
   exceptStatus?: string;
+  hideDeleteButton?: boolean;
 };
 
 export default function ProductList({
@@ -19,6 +20,7 @@ export default function ProductList({
   onclickURL,
   exceptUserId,
   exceptStatus,
+  hideDeleteButton,
 }: productListProps) {
   const productQuery = useQuery<Product[]>({
     queryKey: ["products", userId, status, exceptUserId, exceptStatus],
@@ -46,6 +48,7 @@ export default function ProductList({
           product={product}
           status={status}
           onclickURL={onclickURL}
+          hideDeleteButton={hideDeleteButton}
         />
       ))}
     </div>

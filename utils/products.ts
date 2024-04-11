@@ -5,15 +5,6 @@ export async function getProducts(
   exceptUserId?: string,
   exceptStatus?: Product["status"] | string | null
 ): Promise<Product[]> {
-  console.log(
-    "Fetching products for",
-    userId,
-    status,
-    "excluding",
-    exceptUserId,
-    exceptStatus
-  );
-
   const queryParams: URLSearchParams = new URLSearchParams();
   if (userId) {
     queryParams.append("userId", userId);
@@ -33,7 +24,6 @@ export async function getProducts(
   const route = `/api/get-products${
     queryParams.toString().length > 0 ? `?${queryParams.toString()}` : ""
   }`;
-  console.log(route);
   const res = await fetch(route);
 
   if (!res.ok) {
@@ -41,7 +31,6 @@ export async function getProducts(
   }
 
   const products = (await res.json()) as Product[];
-  console.log(products);
   return products;
 }
 

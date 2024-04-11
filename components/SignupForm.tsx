@@ -5,12 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
@@ -92,10 +87,6 @@ export function SignupForm() {
     control,
     formState: { errors },
   } = form;
-
-  // const onSubmitHandler = (values: ValidationSchema) => {
-  //   console.log(values);
-  // };
 
   return (
     <Form {...form}>

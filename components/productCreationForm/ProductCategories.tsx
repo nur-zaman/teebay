@@ -51,7 +51,6 @@ export default function ProductCategories() {
   });
 
   const onSubmitHandler = (values: ValidationSchema) => {
-    // console.log(values);
     setProduct({ ...product, ...values });
     increaseStep(2);
   };

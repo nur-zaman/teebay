@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -15,17 +15,20 @@ export async function DELETE(request: Request) {
       }
     );
   } catch (error: any) {
-    console.error(error);
-    return new Response(
-      JSON.stringify({
-        status: 500,
-        messege: "Failed to delete the product",
-        //eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        error: error.message,
-      }),
-      {
-        status: 500,
-      }
-    );
+    // console.error(error);
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return new Response(
+        JSON.stringify({
+          status: 500,
+          messege: "Failed to delete the product",
+          error: error.message,
+        }),
+        {
+          status: 500,
+        }
+      );
+    } else {
+      console.log(error);
+    }
   }
 }

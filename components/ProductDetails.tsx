@@ -7,7 +7,7 @@ import { ConfirmAlert } from "./ConfirmAlert";
 import { buyProduct, rentProduct } from "@/utils/products";
 import { ProductRentMenu } from "./ProductRentMenu";
 
-type Props = { productId: string; status?: string };
+type Props = { productId: string; status?: string | null };
 
 export default function ProductDetails({ productId, status }: Props) {
   const userId = localStorage.getItem("userId");
@@ -85,7 +85,7 @@ export default function ProductDetails({ productId, status }: Props) {
     },
     onError: (error) => {
       console.error("Error purchasing product:", error);
-      alert("Failed to rent product. Please try again later.\n", error);
+      alert("Failed to rent product. Please try again later.");
     },
   });
 

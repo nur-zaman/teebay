@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
     // Fetch or create categories
     const categoryIds = await Promise.all(
-      categories.map(async (category) => {
+      categories.map(async (category: { name: any }) => {
         const existingCategory = await prisma.category.findUnique({
           where: { name: category.name },
         });
@@ -59,16 +59,19 @@ export async function POST(request: Request) {
       }
     );
   } catch (error) {
-    console.error(error);
-    return new Response(
-      JSON.stringify({
-        status: 500,
-        messege: "Failed to create the product",
-        error: error.message,
-      }),
-      {
-        status: 500,
-      }
-    );
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return new Response(
+        JSON.stringify({
+          status: 500,
+          messege: "Failed to create the product",
+          error: error.message,
+        }),
+        {
+          status: 500,
+        }
+      );
+    } else {
+      console.error(error);
+    }
   }
 }

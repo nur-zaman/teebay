@@ -1,6 +1,6 @@
 import React from "react";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
-import MultipleSelector, { Option } from "../ui/multiple-selector";
+import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { UseFormReturn } from "react-hook-form";
 
 type Props = {

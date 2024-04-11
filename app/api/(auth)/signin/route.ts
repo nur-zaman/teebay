@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -31,14 +31,17 @@ export async function POST(request: Request) {
       status: 200,
     });
   } catch (error) {
-    console.error(error);
-    return new Response(
-      JSON.stringify({
-        status: 500,
-        message: "Failed to retrieve user ID",
-        error: error.message,
-      }),
-      { status: 500 }
-    );
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      return new Response(
+        JSON.stringify({
+          status: 500,
+          message: "Failed to retrieve user ID",
+          error: error.message,
+        }),
+        { status: 500 }
+      );
+    } else {
+      console.log(error);
+    }
   }
 }

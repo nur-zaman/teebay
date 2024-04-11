@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { $Enums, Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -35,7 +35,6 @@ export async function GET(request: Request) {
         ],
       };
     }
-    console.log(whereClause);
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {

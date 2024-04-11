@@ -11,7 +11,7 @@ export default function ProductStatusPage() {
     throw new Error("User ID invalid");
   }
   return (
-    <Tabs defaultValue="account" className="w-full">
+    <Tabs defaultValue="account" className="w-full p-4">
       <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="bought">Bought</TabsTrigger>
         <TabsTrigger value="sold">Sold</TabsTrigger>

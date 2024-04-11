@@ -34,6 +34,7 @@ export default function ProductCard({
         console.log("Product deleted successfully");
       } else {
         const error = await response.json();
+        // eslint-disable-next-line no-console
         console.error("Error deleting product:", error);
 
         // Revert the optimistic update
@@ -43,6 +44,7 @@ export default function ProductCard({
         );
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error deleting product:", error);
 
       // Revert the optimistic update

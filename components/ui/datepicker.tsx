@@ -19,7 +19,7 @@ export function DatePicker({
 }: {
   onSelect?: (date: Date) => void;
 }) {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date>(new Date());
 
   return (
     <Popover>
@@ -39,9 +39,12 @@ export function DatePicker({
         <Calendar
           mode="single"
           selected={date}
-          onSelect={(newDate: Date) => {
-            setDate(newDate);
-            onSelect?.(newDate); // Call the onSelect prop if provided
+          onSelect={(newDate: any): void => {
+            if (newDate instanceof Date) {
+              // Type guard to ensure newDate is a Date
+              setDate(newDate);
+              onSelect?.(newDate);
+            }
           }}
           initialFocus
         />

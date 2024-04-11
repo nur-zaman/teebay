@@ -134,7 +134,7 @@ export default function ProductDetails({ productId, status }: Props) {
         {product.rate.toString().toLowerCase()}
       </p>
       <p className="text-gray-700">{product.description}</p>
-      <div className="flex justify-end mt-6">
+      <div className="flex justify-end mt-6 gap-2">
         <ProductRentMenu
           setStartDate={setStartDate}
           setEndDate={setEndDate}

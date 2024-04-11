@@ -11,7 +11,7 @@ export interface Product {
   description: string;
   price: number;
   rent: number;
-  status?: "BOUGHT" | "RENTED" | "SOLD" | "BORROWED";
+  status?: "RENTED" | "SOLD" | null;
   rate: "YEAR" | "MONTH" | "WEEK" | "DAY";
   userId: string;
   createdAt?: string;

@@ -43,7 +43,7 @@ export default function ProductSummary() {
 
         resetStep();
         resetProduct();
-        router.push("/myproducts");
+        router.push("/my-products");
       }
     } catch (error) {
       console.error("Error creating product:", error);

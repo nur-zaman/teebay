@@ -32,14 +32,12 @@ export function ConfirmAlert({
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>{message}</AlertDialogDescription>
+          <AlertDialogTitle>{message}</AlertDialogTitle>
+          {/* <AlertDialogDescription></AlertDialogDescription> */}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{optionNo}</AlertDialogCancel>
-          <AlertDialogAction>
-            <button onClick={yesAction}> {optionYes}</button>
-          </AlertDialogAction>
+          <AlertDialogAction onClick={yesAction}>{optionYes}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

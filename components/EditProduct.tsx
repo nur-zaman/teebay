@@ -21,6 +21,7 @@ import { updateProduct } from "@/utils/products";
 
 interface EditProductProps {
   productId: string | null;
+  status?: string;
 }
 
 const formSchema = z.object({
@@ -43,7 +44,7 @@ const formSchema = z.object({
 
 type ValidationSchema = z.infer<typeof formSchema>;
 
-export default function EditProduct({ productId }: EditProductProps) {
+export default function EditProduct({ productId, status }: EditProductProps) {
   const userId = localStorage.getItem("userId");
   if (!userId) {
     console.log("please log in first");
@@ -56,6 +57,9 @@ export default function EditProduct({ productId }: EditProductProps) {
   const products: Product[] = queryClient.getQueryData([
     "products",
     userId,
+    status,
+    undefined,
+    undefined,
   ]) as Product[];
 
   const product: Product | undefined = products?.find(
@@ -64,7 +68,7 @@ export default function EditProduct({ productId }: EditProductProps) {
 
   if (!product) {
     console.log("Product ID invalid");
-    redirect(`/myproducts`);
+    redirect(`/my-products`);
     throw new Error("Product ID invalid");
   }
 
@@ -114,8 +118,10 @@ export default function EditProduct({ productId }: EditProductProps) {
     };
     try {
       const res = await updateProduct(formattedProduct);
-      await queryClient.invalidateQueries({ queryKey: ["products"] });
-      if (res.ok) router.push("/myproducts");
+      await queryClient.invalidateQueries({
+        queryKey: ["products", product.userId, status],
+      });
+      if (res.ok) router.push("/my-products");
     } catch (error) {
       console.error("Error creating product:", error);
     }

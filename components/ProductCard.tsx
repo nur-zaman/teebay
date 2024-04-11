@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 
 export default function ProductCard({
   product,
+  status,
   hideDeleteButton,
   onclickURL,
 }: {
   product: Product;
+  status?: string | null;
   hideDeleteButton?: boolean;
   onclickURL: string;
 }) {
@@ -23,7 +25,7 @@ export default function ProductCard({
     try {
       // Optimistic update
       queryClient.setQueryData<Product[] | undefined>(
-        ["products", product.userId],
+        ["products", product.userId, status, undefined, undefined],
         (products) => products?.filter((p) => p.id !== id)
       );
       if (!id) throw new Error("Id is required");
@@ -36,7 +38,7 @@ export default function ProductCard({
 
         // Revert the optimistic update
         queryClient.setQueryData<Product[] | undefined>(
-          ["products"],
+          ["products", product.userId, status],
           (products) => (products ? [...products, product] : [product])
         );
       }
@@ -45,7 +47,7 @@ export default function ProductCard({
 
       // Revert the optimistic update
       queryClient.setQueryData<Product[] | undefined>(
-        ["products"],
+        ["products", product.userId, status],
         (products) => (products ? [...products, product] : [product])
       );
     }

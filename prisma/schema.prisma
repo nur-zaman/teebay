@@ -73,10 +73,8 @@ model Purchase {
 }
 
 enum RentStatus {
-    BOUGHT
     RENTED
     SOLD
-    BORROWED
 }
 
 enum RateType {

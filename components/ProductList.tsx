@@ -7,18 +7,22 @@ import { getProducts } from "@/utils/products";
 
 type productListProps = {
   userId?: string;
-  status?: string;
+  status?: string | null;
   onclickURL: string;
+  exceptUserId?: string;
+  exceptStatus?: string;
 };
 
 export default function ProductList({
   userId,
   status,
   onclickURL,
+  exceptUserId,
+  exceptStatus,
 }: productListProps) {
   const productQuery = useQuery<Product[]>({
-    queryKey: ["products", userId],
-    queryFn: () => getProducts(userId),
+    queryKey: ["products", userId, status, exceptUserId, exceptStatus],
+    queryFn: () => getProducts(userId, status, exceptUserId, exceptStatus),
   });
   const { data: products, isLoading, error } = productQuery;
 
@@ -40,6 +44,7 @@ export default function ProductList({
         <ProductCard
           key={product.id}
           product={product}
+          status={status}
           onclickURL={onclickURL}
         />
       ))}

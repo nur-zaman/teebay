@@ -4,15 +4,12 @@ import ProductDescription from "@/components/productCreationForm/ProductDescript
 import ProductPriceInfo from "@/components/productCreationForm/ProductPriceInfo";
 import ProductSummary from "@/components/productCreationForm/ProductSummary";
 import ProductTitle from "@/components/productCreationForm/ProductTitle";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import useStore from "@/store/useStore";
 
 export default function CreateProductPage() {
   const { step } = useStore((state) => state);
   return (
     <>
-      {" "}
       {step === 1 && <ProductTitle />}
       {step === 2 && <ProductCategories />}
       {step === 3 && <ProductDescription />}

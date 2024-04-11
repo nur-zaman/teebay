@@ -37,7 +37,7 @@ export function LoginForm() {
       signIn(email, password),
     onSuccess: (userId) => {
       localStorage.setItem("userId", userId);
-      router.push("/myproducts");
+      router.push("/my-products");
     },
     onError: (error) => {
       setError(error.message);

@@ -8,13 +8,13 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <section className="flex flex-col">
+    <div className="flex flex-col">
       <div className="m-2 self-end">
         <Link href="/">
           <Button variant={"destructive"}>LOGOUT</Button>
         </Link>
       </div>
       {children}
-    </section>
+    </div>
   );
 }

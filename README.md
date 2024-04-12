@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Teebay: Rent and Buy/Sell Products with Ease
 
-## Getting Started
+Teebay is a web application built with Next.js that allows users to rent and buy/sell products within various categories.
 
-First, run the development server:
+### Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Authentication:**
+    
+    - Sign up and create a new account.
+        
+    - Log in with existing credentials.
+        
+- **Product Management:**
+    
+    - Create products using a multi-step form with intuitive navigation.
+        
+    - Edit existing product details and categories.
+        
+    - Delete products you no longer wish to list.
+        
+- **Product Browsing and Transactions:**
+    
+    - View a comprehensive list of all available products from all users.
+        
+    - Buy products directly with a simple confirmation process.
+        
+    - Rent products by selecting desired rental start and end dates.
+        
+- **Product Status Tracking:**
+    
+    - Keep track of your buying, selling, borrowing, and lending activities through dedicated tabs.
+        
+    - View detailed information about each transaction.
+        
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Front-end:** React with Next.js
+    
+- **Back-end/API:** Next.js API routes
+    
+- **Database:** Vercel Postgres ([https://vercel.com/storage/postgres](https://vercel.com/storage/postgres)) managed by Prisma ORM
+    
+- **State Management:** Zustand
+    
+- **Data Fetching:** React Query
+    
+- **UI Components:** ShadCn UI and Tailwind CSS
+    
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Installation and Running
 
-## Learn More
+**Prerequisites:**
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js and npm (or yarn) installed
+    
+- Vercel CLI: npm install -g vercel@latest
+    
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Setup:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Clone the repository: git clone https://github.com/nur-zaman/teebay.git
+    
+2. Install dependencies: npm install
+    
+3. Create and connect a Vercel Postgres database:
+    
+    - Follow the guide on setting up Vercel Postgres and Prisma with Vercel CLI: [https://vercel.com/guides/how-to-build-a-fullstack-app-with-nextjs-prisma-and-vercel-postgres](https://vercel.com/guides/how-to-build-a-fullstack-app-with-nextjs-prisma-and-vercel-postgres)
+        
+    - Create a database named teebay_db (or any name you prefer).
+        
+    - Use the Vercel CLI to pull down the environment variables for your local project: vercel env pull .env
+        
+4. Run the development server: npm run dev
+    
+5. Access the application in your browser at [http://localhost:3000](http://localhost:3000/)
+    
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Documentation
+For detailed technical documentation, please refer to [teebay.md](docs/teebay.md).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Deployment
+
+Teebay is deployed on Vercel at [https://teebay-olive.vercel.app](https://teebay-olive.vercel.app/).

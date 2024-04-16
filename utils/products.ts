@@ -1,4 +1,6 @@
 import { Product } from "@/types/productType";
+import { apiURL } from "./apiUrl";
+
 export async function getProducts(
   userId?: string,
   status?: Product["status"] | string | null,
@@ -21,7 +23,7 @@ export async function getProducts(
     queryParams.append("exceptStatus", exceptStatus);
   }
 
-  const route = `/api/get-products${
+  const route = `${apiURL}/api/get-products${
     queryParams.toString().length > 0 ? `?${queryParams.toString()}` : ""
   }`;
   const res = await fetch(route);
@@ -35,7 +37,7 @@ export async function getProducts(
 }
 
 export async function deleteProduct(productId: string) {
-  const response = await fetch("/api/delete-product", {
+  const response = await fetch(`${apiURL}/api/delete-product`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +49,7 @@ export async function deleteProduct(productId: string) {
 }
 
 export async function createProduct(product: Product) {
-  const response = await fetch("/api/add-product", {
+  const response = await fetch(`${apiURL}/api/add-product`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -59,7 +61,7 @@ export async function createProduct(product: Product) {
 }
 
 export async function updateProduct(product: Product) {
-  const response = await fetch(`/api/update-product`, {
+  const response = await fetch(`${apiURL}/api/update-product`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -71,7 +73,7 @@ export async function updateProduct(product: Product) {
 }
 
 export async function buyProduct(userId: string, productId: string) {
-  const response = await fetch(`/api/buy-product`, {
+  const response = await fetch(`${apiURL}/api/buy-product`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -97,7 +99,7 @@ export async function rentProduct(
   const formattedStartDate = startDate.toISOString();
   const formattedEndDate = endDate.toISOString();
 
-  const response = await fetch(`/api/rent-product`, {
+  const response = await fetch(`${apiURL}/api/rent-product`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

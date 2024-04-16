@@ -37,7 +37,7 @@ Teebay is a web application built with Next.js that allows users to 
 
 - **Front-end:** React with Next.js
     
-- **Back-end/API:** Next.js API routes
+- **Back-end/API:** Next.js API routes and ExpressJs
     
 - **Database:** Vercel Postgres ([https://vercel.com/storage/postgres](https://vercel.com/storage/postgres)) managed by Prisma ORM
     
@@ -54,27 +54,35 @@ Teebay is a web application built with Next.js that allows users to 
 
 - Node.js and npm (or yarn) installed
     
-- Vercel CLI: npm install -g vercel@latest
+- Vercel CLI: `npm install -g vercel@latest`
     
 
 **Setup:**
 
-1. Clone the repository: git clone https://github.com/nur-zaman/teebay.git
+1. Clone the repository: `git clone https://github.com/nur-zaman/teebay.git`
     
-2. Install dependencies: npm install
+2. Install dependencies: `npm install`
     
 3. Create and connect a Vercel Postgres database:
-    
-    - Follow the guide on setting up Vercel Postgres and Prisma with Vercel CLI: [https://vercel.com/guides/how-to-build-a-fullstack-app-with-nextjs-prisma-and-vercel-postgres](https://vercel.com/guides/how-to-build-a-fullstack-app-with-nextjs-prisma-and-vercel-postgres)
         
     - Create a database named teebay_db (or any name you prefer).
-        
-    - Use the Vercel CLI to pull down the environment variables for your local project: vercel env pull .env
+    - Connect the project with the db via `vercel link`
+    - Use the Vercel CLI to pull down the environment variables for your local project: `vercel env pull .env`
         
 4. Run the development server: npm run dev
     
 5. Access the application in your browser at [http://localhost:3000](http://localhost:3000/)
     
+
+**Optional:** Start the Backend Server (Expressjs)
+
+If you want it to connect to the express backend server, you need to set the environment variables in the.env file.
+```
+BACKEND="express"
+PORT=<any_available_port>
+```
+
+Open another terminal and run `npm run express-server`
 
 
 ### Documentation

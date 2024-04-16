@@ -1,5 +1,7 @@
+import { apiURL } from "./apiUrl";
+
 export async function signIn(email: string, password: string) {
-  const response = await fetch("/api/signin", {
+  const response = await fetch(`${apiURL}/api/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
